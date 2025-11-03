@@ -1,0 +1,34 @@
+{
+  "name": "contexta",
+  "version": "0.1.0",
+  "description": "Chrome extension for contextual language learning through YouTube videos",
+  "main": "manifest.json",
+  "scripts": {
+    "build": "echo 'Build script to be implemented'",
+    "watch": "echo 'Watch script to be implemented'",
+    "test": "echo 'Test script to be implemented'",
+    "lint": "echo 'Lint script to be implemented'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmanhype/contexta.git"
+  },
+  "keywords": [
+    "chrome-extension",
+    "language-learning",
+    "spanish",
+    "youtube",
+    "education",
+    "subtitles",
+    "translation",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmanhype/contexta/issues"
+  },
+  "homepage": "https://github.com/jmanhype/contexta#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}
