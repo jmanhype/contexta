@@ -1,0 +1,263 @@
+/**
+ * Contexta - Content Script Styles
+ * Styles for UI injected into YouTube pages
+ */
+
+/* Main container */
+.contexta-container {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 90%;
+  width: 800px;
+}
+
+/* Subtitle overlay */
+.contexta-subtitles {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  padding: 16px 24px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: none; /* Hidden by default, shown when captions are available */
+}
+
+.contexta-subtitles.active {
+  display: block;
+}
+
+/* Individual subtitle lines */
+.contexta-subtitle-line {
+  padding: 4px 0;
+  line-height: 1.5;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.contexta-subtitle-line.contexta-native {
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.contexta-subtitle-line.contexta-target {
+  color: #ffd700;
+  font-size: 20px;
+}
+
+/* Clickable words in subtitles */
+.contexta-word {
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.contexta-word:hover {
+  background-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Tooltip for word definitions */
+.contexta-tooltip {
+  position: absolute;
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 300px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  pointer-events: auto;
+  border: 1px solid #333;
+}
+
+.contexta-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #1a1a1a;
+}
+
+.contexta-tooltip-word {
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.contexta-tooltip-translation {
+  color: #cccccc;
+}
+
+.contexta-tooltip-save {
+  margin-top: 12px;
+  padding: 6px 12px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.contexta-tooltip-save:hover {
+  background: #357ae8;
+}
+
+/* Quiz overlay */
+.contexta-quiz-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+.contexta-quiz-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  pointer-events: auto;
+}
+
+.contexta-quiz-question {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.contexta-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.contexta-quiz-option {
+  padding: 16px;
+  background: #f5f5f5;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  text-align: left;
+}
+
+.contexta-quiz-option:hover {
+  background: #e8f4fd;
+  border-color: #4285f4;
+}
+
+.contexta-quiz-option.selected {
+  background: #4285f4;
+  color: white;
+}
+
+.contexta-quiz-option.correct {
+  background: #34a853;
+  color: white;
+  border-color: #2d8e47;
+}
+
+.contexta-quiz-option.incorrect {
+  background: #ea4335;
+  color: white;
+  border-color: #c5392b;
+}
+
+.contexta-quiz-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.contexta-quiz-button {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contexta-quiz-button.primary {
+  background: #4285f4;
+  color: white;
+}
+
+.contexta-quiz-button.primary:hover {
+  background: #357ae8;
+}
+
+.contexta-quiz-button.secondary {
+  background: #f5f5f5;
+  color: #5f6368;
+}
+
+.contexta-quiz-button.secondary:hover {
+  background: #e8eaed;
+}
+
+/* Control panel toggle button */
+.contexta-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.contexta-toggle:hover {
+  background: #357ae8;
+  transform: scale(1.1);
+}
+
+/* Hide Contexta UI when printing */
+@media print {
+  .contexta-container,
+  .contexta-toggle,
+  .contexta-quiz-overlay,
+  .contexta-quiz-backdrop,
+  .contexta-tooltip {
+    display: none !important;
+  }
+}

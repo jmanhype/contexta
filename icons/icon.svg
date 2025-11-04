@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#4285f4"/>
+
+  <!-- Speech bubble -->
+  <path d="M 40 50 L 88 50 C 92 50 95 53 95 57 L 95 75 C 95 79 92 82 88 82 L 60 82 L 50 92 L 50 82 L 40 82 C 36 82 33 79 33 75 L 33 57 C 33 53 36 50 40 50 Z" fill="white"/>
+
+  <!-- Text lines inside bubble -->
+  <line x1="45" y1="60" x2="75" y2="60" stroke="#4285f4" stroke-width="3" stroke-linecap="round"/>
+  <line x1="45" y1="70" x2="83" y2="70" stroke="#4285f4" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Globe icon (language symbol) -->
+  <circle cx="78" cy="42" r="12" fill="#ffd700" stroke="white" stroke-width="2"/>
+  <text x="78" y="48" font-family="Arial" font-size="14" fill="white" text-anchor="middle" font-weight="bold">A</text>
+</svg>

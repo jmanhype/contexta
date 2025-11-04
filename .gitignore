@@ -5,6 +5,10 @@ build/
 *.pem
 *.zip
 
+# Icons (PNG files generated from SVG)
+# Keep SVG source, ignore generated PNGs
+icons/*.png
+
 # Dependencies
 node_modules/
 npm-debug.log*
