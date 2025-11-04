@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contexta Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>Contexta</h1>
+      <p class="popup-subtitle">YouTube Language Learning</p>
+    </header>
+
+    <main class="popup-content">
+      <section class="settings-section">
+        <h2>Language Settings</h2>
+        <div class="setting-item">
+          <label for="target-language">Learning Language:</label>
+          <select id="target-language">
+            <option value="es" selected>Spanish</option>
+            <option value="fr">French (Coming Soon)</option>
+            <option value="de">German (Coming Soon)</option>
+            <option value="it">Italian (Coming Soon)</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label for="native-language">Native Language:</label>
+          <select id="native-language">
+            <option value="en" selected>English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>Display Settings</h2>
+        <div class="setting-item">
+          <label class="checkbox-label">
+            <input type="checkbox" id="auto-subtitles" checked>
+            <span>Auto-show dual subtitles</span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="pronunciation-speed">Pronunciation Speed:</label>
+          <input type="range" id="pronunciation-speed" min="0.5" max="1.5" step="0.1" value="0.8">
+          <span id="speed-value">0.8x</span>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>Quiz Settings</h2>
+        <div class="setting-item">
+          <label for="quiz-frequency">Quiz Frequency (minutes):</label>
+          <input type="number" id="quiz-frequency" min="1" max="60" value="5">
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h2>Your Progress</h2>
+        <div class="stat-item">
+          <span class="stat-label">Vocabulary Saved:</span>
+          <span class="stat-value" id="vocab-count">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Quizzes Completed:</span>
+          <span class="stat-value" id="quiz-count">0</span>
+        </div>
+      </section>
+
+      <section class="actions-section">
+        <button id="save-settings" class="button primary">Save Settings</button>
+        <button id="view-vocabulary" class="button secondary">View Vocabulary</button>
+      </section>
+
+      <footer class="popup-footer">
+        <p class="version">v0.1.0 - Planning Phase</p>
+        <p class="status">Core features coming soon!</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

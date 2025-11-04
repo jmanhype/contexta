@@ -4,10 +4,14 @@
   "description": "Chrome extension for contextual language learning through YouTube videos",
   "main": "manifest.json",
   "scripts": {
-    "build": "echo 'Build script to be implemented'",
-    "watch": "echo 'Watch script to be implemented'",
-    "test": "echo 'Test script to be implemented'",
-    "lint": "echo 'Lint script to be implemented'"
+    "check-icons": "node scripts/generate-icons.js",
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
+    "format": "prettier --write \"src/**/*.{js,css,html}\"",
+    "format:check": "prettier --check \"src/**/*.{js,css,html}\"",
+    "test": "echo 'Test framework to be added (Jest recommended)'",
+    "validate": "npm run format:check && npm run lint && npm run check-icons",
+    "prepare": "npm run check-icons"
   },
   "repository": {
     "type": "git",
@@ -23,12 +27,19 @@
     "translation",
     "ai"
   ],
-  "author": "",
+  "author": "Contexta Contributors",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jmanhype/contexta/issues"
   },
   "homepage": "https://github.com/jmanhype/contexta#readme",
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.3"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
 }

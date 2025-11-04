@@ -67,7 +67,9 @@ Contexta transforms YouTube into an immersive language learning platform for Spa
 ## Development Roadmap
 
 ### Phase 1: MVP (Core Features)
-- [ ] Chrome extension manifest and basic structure
+- [x] Chrome extension manifest and basic structure
+- [x] Source file scaffolding (background worker, content script, popup)
+- [x] Development tooling (ESLint, Prettier)
 - [ ] YouTube caption retrieval and parsing
 - [ ] Dual subtitle display
 - [ ] Basic translation integration
@@ -96,11 +98,62 @@ Contexta transforms YouTube into an immersive language learning platform for Spa
 
 ## Installation (Development)
 
-*Instructions will be added once implementation begins*
+### Prerequisites
+- Node.js v16 or higher
+- Chrome browser
+- Git
+
+### Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/jmanhype/contexta.git
+   cd contexta
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Load the extension in Chrome:**
+   - Open Chrome and navigate to `chrome://extensions/`
+   - Enable "Developer mode" (toggle in top right)
+   - Click "Load unpacked"
+   - Select the project root directory
+   - The extension should now appear in your extensions list
+
+4. **Start developing:**
+   - Make changes to files in the `src/` directory
+   - Click the refresh icon on the extension card in `chrome://extensions/`
+   - Reload any YouTube pages to see your changes
+
+For more detailed development instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 
-This project is currently in the planning phase. Contributions will be welcome once development starts.
+We welcome contributions! The project is in active development with a foundational structure in place.
+
+Before contributing, please:
+1. Read the [CONTRIBUTING.md](CONTRIBUTING.md) guide
+2. Check existing issues or create a new one
+3. Follow the coding standards and testing guidelines
+
+### Quick Start for Contributors
+
+```bash
+# Install dependencies
+npm install
+
+# Check code formatting
+npm run format:check
+
+# Run linting
+npm run lint
+
+# Validate everything
+npm run validate
+```
 
 ## Privacy Policy
 
@@ -112,7 +165,7 @@ Contexta is designed with privacy in mind:
 
 ## License
 
-*License to be determined*
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Target Audience
 
