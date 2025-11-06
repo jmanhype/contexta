@@ -17,8 +17,8 @@
       "matches": ["https://www.youtube.com/*"],
       "js": [
         "src/utils/constants.js",
-        "src/utils/translation.js",
         "src/utils/storage.js",
+        "src/utils/translation.js",
         "src/content/subtitle-parser.js",
         "src/content/ui-injector.js",
         "src/content/quiz-manager.js",

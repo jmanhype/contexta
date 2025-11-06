@@ -11,27 +11,19 @@ class SubtitleParser {
     try {
       this.currentVideoId = videoId;
 
-      // Try to get captions from YouTube's timedtext API
-      const captionTracks = await this.getCaptionTracks();
+      console.log('Contexta: Attempting to extract subtitles using native YouTube captions...');
 
-      if (captionTracks.length === 0) {
-        console.log('No captions available for this video');
-        return [];
-      }
+      // NEW APPROACH: Observe YouTube's native caption rendering
+      const subtitles = await this.extractFromNativeCaptions();
 
-      // Prefer Spanish captions, fallback to auto-generated
-      const spanishTrack = this.selectBestTrack(captionTracks);
-
-      if (spanishTrack) {
-        const subtitles = await this.fetchAndParseSubtitles(spanishTrack.url);
+      if (subtitles.length > 0) {
+        console.log('Contexta: Successfully extracted', subtitles.length, 'subtitles from native captions');
         this.subtitles = subtitles;
-
-        // Translate subtitles
         await this.translateSubtitles();
-
         return this.subtitles;
       }
 
+      console.log('No captions available for this video');
       return [];
     } catch (error) {
       console.error('Error extracting subtitles:', error);
@@ -59,16 +51,38 @@ class SubtitleParser {
     try {
       // Try to find ytInitialPlayerResponse in the page
       const scripts = document.querySelectorAll('script');
+      console.log('Contexta: Searching through', scripts.length, 'script tags');
+
       for (const script of scripts) {
         const content = script.textContent;
         if (content.includes('ytInitialPlayerResponse')) {
-          const match = content.match(/ytInitialPlayerResponse\s*=\s*({.+?});/);
-          if (match) {
-            return JSON.parse(match[1]);
+          console.log('Contexta: Found ytInitialPlayerResponse');
+
+          // Try more robust regex patterns
+          const patterns = [
+            /ytInitialPlayerResponse\s*=\s*(\{.+?\});var/s,
+            /ytInitialPlayerResponse\s*=\s*(\{.+?\});\s*var/s,
+            /ytInitialPlayerResponse\s*=\s*(\{(?:[^{}]|\{[^{}]*\})*\});/,
+          ];
+
+          for (const pattern of patterns) {
+            const match = content.match(pattern);
+            if (match) {
+              console.log('Contexta: Pattern matched, parsing JSON...');
+              try {
+                const parsed = JSON.parse(match[1]);
+                console.log('Contexta: Successfully parsed player response');
+                return parsed;
+              } catch (e) {
+                console.log('Contexta: JSON parse failed for pattern, trying next...');
+                continue;
+              }
+            }
           }
         }
       }
 
+      console.log('Contexta: ytInitialPlayerResponse not found or could not be parsed');
       return null;
     } catch (error) {
       console.error('Error parsing player response:', error);
@@ -82,16 +96,23 @@ class SubtitleParser {
         playerResponse?.captions?.playerCaptionsTracklistRenderer
           ?.captionTracks;
 
+      console.log('Contexta: Caption tracks found:', captions?.length || 0);
+
       if (!captions) {
+        console.log('Contexta: No captions in player response. Available keys:',
+                    Object.keys(playerResponse?.captions || {}));
         return [];
       }
 
-      return captions.map((track) => ({
+      const tracks = captions.map((track) => ({
         url: track.baseUrl,
         language: track.languageCode,
         name: track.name?.simpleText || track.languageCode,
         kind: track.kind || 'captions',
       }));
+
+      console.log('Contexta: Parsed tracks:', tracks.map(t => `${t.name} (${t.language})`));
+      return tracks;
     } catch (error) {
       console.error('Error parsing caption tracks:', error);
       return [];
@@ -113,34 +134,65 @@ class SubtitleParser {
   }
 
   selectBestTrack(tracks) {
+    console.log('Contexta: Selecting best track from:', tracks.map(t => t.language));
+
     // Prefer Spanish tracks
     const spanishTrack = tracks.find((track) =>
       CONTEXTA_CONFIG.LANGUAGES.SPANISH.variants.includes(track.language)
     );
 
     if (spanishTrack) {
+      console.log('Contexta: Selected Spanish track:', spanishTrack.language);
       return spanishTrack;
     }
 
     // Fallback to first available track
-    return tracks[0] || null;
+    const selected = tracks[0] || null;
+    console.log('Contexta: No Spanish track, using:', selected?.language || 'none');
+    return selected;
   }
 
   async fetchAndParseSubtitles(url) {
     try {
-      const response = await fetch(url);
-      const text = await response.text();
+      // Try adding format parameter to force a specific format
+      const urlWithFormat = url.includes('&fmt=') ? url : `${url}&fmt=srv3`;
+      console.log('Contexta: Fetching subtitles from:', urlWithFormat);
+
+      // Use background service worker to fetch (avoids CORS issues)
+      console.log('Contexta: Sending message to service worker...');
+      const response = await chrome.runtime.sendMessage({
+        action: 'fetchSubtitleText',
+        url: urlWithFormat
+      });
+
+      console.log('Contexta: Received response from service worker:', response);
+
+      if (!response || !response.success) {
+        console.error('Contexta: Fetch failed:', response?.error || 'No response');
+        return [];
+      }
+
+      const text = response.data;
+      console.log('Contexta: Fetched subtitle text, length:', text.length);
+      console.log('Contexta: First 200 chars:', text.substring(0, 200));
 
       // Determine format and parse accordingly
       if (text.includes('WEBVTT')) {
-        return this.parseWebVTT(text);
+        console.log('Contexta: Parsing as WebVTT format');
+        const subs = this.parseWebVTT(text);
+        console.log('Contexta: Parsed', subs.length, 'WebVTT subtitles');
+        return subs;
       } else if (text.includes('<text')) {
-        return this.parseXML(text);
+        console.log('Contexta: Parsing as XML format');
+        const subs = this.parseXML(text);
+        console.log('Contexta: Parsed', subs.length, 'XML subtitles');
+        return subs;
       }
 
+      console.log('Contexta: Unknown subtitle format, cannot parse');
       return [];
     } catch (error) {
-      console.error('Error fetching subtitles:', error);
+      console.error('Contexta: Error fetching subtitles:', error);
       return [];
     }
   }
@@ -302,6 +354,177 @@ class SubtitleParser {
     return this.subtitles.filter(
       (sub) => sub.start >= startTime && sub.end <= endTime
     );
+  }
+
+  async extractFromNativeCaptions() {
+    return new Promise((resolve) => {
+      console.log('Contexta: Setting up native caption observer...');
+
+      const captionMap = new Map(); // Track by time to avoid duplicates
+
+      // Enable YouTube captions if not already enabled
+      this.enableYouTubeCaptions();
+
+      // Wait a moment for captions to enable
+      setTimeout(() => {
+        // Find the caption window element
+        const captionContainer = document.querySelector('.ytp-caption-window-container');
+
+        if (!captionContainer) {
+          console.log('Contexta: No caption container found');
+          resolve([]);
+          return;
+        }
+
+        console.log('Contexta: Caption container found, observing...');
+
+        const video = document.querySelector('video');
+
+        if (!video) {
+          console.log('Contexta: No video element found');
+          resolve([]);
+          return;
+        }
+
+        console.log('Contexta: Video element found. Playing:', !video.paused, 'Time:', video.currentTime);
+
+      // Collect captions as they appear
+      const observer = new MutationObserver((mutations) => {
+        // Try multiple selectors for caption text
+        const selectors = [
+          '.ytp-caption-segment',
+          '.caption-visual-line',
+          '.ytp-caption-window-container span',
+          '[class*="caption"]'
+        ];
+
+        let captionElements = [];
+        for (const selector of selectors) {
+          captionElements = captionContainer.querySelectorAll(selector);
+          if (captionElements.length > 0) {
+            console.log('Contexta: Found', captionElements.length, 'elements with selector:', selector);
+            break;
+          }
+        }
+
+        captionElements.forEach(el => {
+          const text = el.textContent?.trim();
+          const currentTime = video.currentTime;
+
+          if (text && currentTime) {
+            const key = `${Math.floor(currentTime)}-${text}`;
+            if (!captionMap.has(key)) {
+              captionMap.set(key, {
+                start: currentTime,
+                end: currentTime + 3, // Estimate duration
+                text: text
+              });
+              console.log('Contexta: Captured caption:', text, 'at', currentTime);
+            }
+          }
+        });
+      });
+
+      observer.observe(captionContainer, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+
+      // Also check periodically (don't rely only on mutations)
+      const checkInterval = setInterval(() => {
+        console.log('Contexta: Periodic check at', video.currentTime);
+
+        // DEBUG: Search ENTIRE document for caption elements
+        const allCaptionSegments = document.querySelectorAll('.ytp-caption-segment');
+        const allCaptionLines = document.querySelectorAll('.caption-visual-line');
+        const allYtpSpans = document.querySelectorAll('.ytp-caption-window-container span');
+
+        console.log('Contexta: DOCUMENT-WIDE SEARCH:');
+        console.log('  .ytp-caption-segment:', allCaptionSegments.length, allCaptionSegments.length > 0 ? allCaptionSegments[0]?.textContent : '');
+        console.log('  .caption-visual-line:', allCaptionLines.length, allCaptionLines.length > 0 ? allCaptionLines[0]?.textContent : '');
+        console.log('  .ytp-caption-window-container span:', allYtpSpans.length);
+
+        // Check caption button state
+        const captionButton = document.querySelector('.ytp-subtitles-button');
+        const isEnabled = captionButton?.getAttribute('aria-pressed') === 'true';
+        console.log('  Caption button enabled:', isEnabled);
+
+        // DEBUG: Log container state
+        console.log('Contexta: Container innerHTML:', captionContainer.innerHTML || '(empty)');
+        console.log('Contexta: Container text:', captionContainer.textContent || '(empty)');
+        console.log('Contexta: All children:', captionContainer.querySelectorAll('*').length);
+
+        // Try all selectors IN THE ENTIRE DOCUMENT (not just container)
+        const selectors = [
+          '.ytp-caption-segment',
+          '.caption-visual-line',
+          '.ytp-caption-window-container span',
+          '[class*="caption"]'
+        ];
+
+        for (const selector of selectors) {
+          const elements = document.querySelectorAll(selector);
+          if (elements.length > 0) {
+            console.log('Contexta: Found', elements.length, 'elements with selector:', selector);
+            elements.forEach(el => {
+              const text = el.textContent?.trim();
+              if (text && video.currentTime && text.length > 0) {
+                const key = `${Math.floor(video.currentTime)}-${text}`;
+                if (!captionMap.has(key)) {
+                  captionMap.set(key, {
+                    start: video.currentTime,
+                    end: video.currentTime + 3,
+                    text: text
+                  });
+                  console.log('Contexta: Captured caption:', text);
+                }
+              }
+            });
+            break;
+          }
+        }
+      }, 1000);
+
+      // After 10 seconds, stop observing and return what we have
+      setTimeout(() => {
+        clearInterval(checkInterval);
+        observer.disconnect();
+        const collected = Array.from(captionMap.values());
+        console.log('Contexta: Stopped observing. Collected', collected.length, 'captions');
+        resolve(collected);
+      }, 10000);
+      }, 500); // Wait 500ms after enabling captions
+    });
+  }
+
+  enableYouTubeCaptions() {
+    try {
+      const captionButton = document.querySelector('.ytp-subtitles-button');
+
+      if (!captionButton) {
+        console.log('Contexta: Caption button not found!');
+        return;
+      }
+
+      const isEnabled = captionButton.getAttribute('aria-pressed') === 'true';
+      console.log('Contexta: Caption button found. Currently enabled:', isEnabled);
+
+      if (!isEnabled) {
+        console.log('Contexta: Clicking caption button to enable...');
+        captionButton.click();
+
+        // Check if it worked
+        setTimeout(() => {
+          const nowEnabled = captionButton.getAttribute('aria-pressed') === 'true';
+          console.log('Contexta: After click, captions enabled:', nowEnabled);
+        }, 500);
+      } else {
+        console.log('Contexta: Captions already enabled');
+      }
+    } catch (error) {
+      console.error('Contexta: Error enabling captions:', error);
+    }
   }
 }
 
