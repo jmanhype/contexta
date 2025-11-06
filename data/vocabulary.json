@@ -1,0 +1,146 @@
+{
+  "commonWords": [
+    { "spanish": "hola", "english": "hello", "level": "beginner" },
+    { "spanish": "gracias", "english": "thank you", "level": "beginner" },
+    { "spanish": "adiós", "english": "goodbye", "level": "beginner" },
+    { "spanish": "por favor", "english": "please", "level": "beginner" },
+    { "spanish": "disculpe", "english": "excuse me", "level": "beginner" },
+    {
+      "spanish": "buenos días",
+      "english": "good morning",
+      "level": "beginner"
+    },
+    {
+      "spanish": "buenas noches",
+      "english": "good night",
+      "level": "beginner"
+    },
+    {
+      "spanish": "¿cómo está?",
+      "english": "how are you?",
+      "level": "beginner"
+    },
+    { "spanish": "muy bien", "english": "very well", "level": "beginner" },
+    { "spanish": "lo siento", "english": "I'm sorry", "level": "beginner" },
+    { "spanish": "habla", "english": "speak", "level": "intermediate" },
+    { "spanish": "escucha", "english": "listen", "level": "intermediate" },
+    { "spanish": "mira", "english": "look", "level": "intermediate" },
+    { "spanish": "come", "english": "eat", "level": "beginner" },
+    { "spanish": "bebe", "english": "drink", "level": "beginner" },
+    { "spanish": "casa", "english": "house", "level": "beginner" },
+    { "spanish": "trabajo", "english": "work", "level": "intermediate" },
+    { "spanish": "escuela", "english": "school", "level": "beginner" },
+    { "spanish": "familia", "english": "family", "level": "beginner" },
+    { "spanish": "amigo", "english": "friend", "level": "beginner" },
+    { "spanish": "tiempo", "english": "time", "level": "intermediate" },
+    { "spanish": "dinero", "english": "money", "level": "intermediate" },
+    { "spanish": "comida", "english": "food", "level": "beginner" },
+    { "spanish": "agua", "english": "water", "level": "beginner" },
+    { "spanish": "libro", "english": "book", "level": "beginner" },
+    { "spanish": "mesa", "english": "table", "level": "beginner" },
+    { "spanish": "silla", "english": "chair", "level": "beginner" },
+    { "spanish": "puerta", "english": "door", "level": "beginner" },
+    { "spanish": "ventana", "english": "window", "level": "beginner" },
+    { "spanish": "coche", "english": "car", "level": "beginner" }
+  ],
+  "phrasePatterns": [
+    { "pattern": "Me gusta ___", "english": "I like ___", "level": "beginner" },
+    {
+      "pattern": "¿Dónde está ___?",
+      "english": "Where is ___?",
+      "level": "beginner"
+    },
+    {
+      "pattern": "No entiendo",
+      "english": "I don't understand",
+      "level": "beginner"
+    },
+    {
+      "pattern": "¿Puede ayudarme?",
+      "english": "Can you help me?",
+      "level": "intermediate"
+    },
+    {
+      "pattern": "¿Cuánto cuesta?",
+      "english": "How much does it cost?",
+      "level": "intermediate"
+    },
+    {
+      "pattern": "¿Habla usted inglés?",
+      "english": "Do you speak English?",
+      "level": "intermediate"
+    },
+    {
+      "pattern": "¿Qué hora es?",
+      "english": "What time is it?",
+      "level": "beginner"
+    },
+    {
+      "pattern": "Tengo hambre",
+      "english": "I am hungry",
+      "level": "beginner"
+    },
+    { "pattern": "Tengo sed", "english": "I am thirsty", "level": "beginner" },
+    {
+      "pattern": "¿Cómo se dice ___?",
+      "english": "How do you say ___?",
+      "level": "intermediate"
+    }
+  ],
+  "verbs": [
+    {
+      "spanish": "ser",
+      "english": "to be",
+      "conjugations": ["soy", "eres", "es", "somos", "sois", "son"]
+    },
+    {
+      "spanish": "estar",
+      "english": "to be",
+      "conjugations": ["estoy", "estás", "está", "estamos", "estáis", "están"]
+    },
+    {
+      "spanish": "tener",
+      "english": "to have",
+      "conjugations": [
+        "tengo",
+        "tienes",
+        "tiene",
+        "tenemos",
+        "tenéis",
+        "tienen"
+      ]
+    },
+    {
+      "spanish": "hacer",
+      "english": "to do/make",
+      "conjugations": ["hago", "haces", "hace", "hacemos", "hacéis", "hacen"]
+    },
+    {
+      "spanish": "ir",
+      "english": "to go",
+      "conjugations": ["voy", "vas", "va", "vamos", "vais", "van"]
+    },
+    {
+      "spanish": "poder",
+      "english": "to be able",
+      "conjugations": [
+        "puedo",
+        "puedes",
+        "puede",
+        "podemos",
+        "podéis",
+        "pueden"
+      ]
+    },
+    {
+      "spanish": "decir",
+      "english": "to say",
+      "conjugations": ["digo", "dices", "dice", "decimos", "decís", "dicen"]
+    },
+    {
+      "spanish": "venir",
+      "english": "to come",
+      "conjugations": ["vengo", "vienes", "viene", "venimos", "venís", "vienen"]
+    }
+  ]
+}

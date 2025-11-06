@@ -1,142 +1,273 @@
-# Contexta
+# Contexta - YouTube Spanish Learning Extension
 
-Chrome extension for contextual language learning through YouTube videos with dual subtitles, interactive quizzes, and AI-powered features.
+A Chrome extension that transforms YouTube into an immersive Spanish learning platform with dual subtitles, interactive quizzes, and intelligent vocabulary tracking.
 
-## Overview
+## ✨ Features
 
-Contexta transforms YouTube into an immersive language learning platform for Spanish learners. Watch authentic Spanish content while getting real-time translations, contextual definitions, pronunciation help, and interactive quizzes - all within your browser.
+### 🎯 Core Learning Features
 
-## Key Features (Planned)
+- **Dual Subtitles**: Display Spanish and English subtitles simultaneously
+- **Interactive Dictionary**: Click any Spanish word for instant translation and pronunciation
+- **Smart Quizzes**: Pop-up quizzes based on recently watched content
+- **Vocabulary Tracking**: Automatically save and track learned words
+- **Text-to-Speech**: Hear correct Spanish pronunciation
 
-### Core Features
-- **Dual Subtitles**: Display both Spanish and English subtitles simultaneously
-- **Inline Dictionary**: Hover over any word for instant translations and definitions
-- **Pronunciation Assistant**: Text-to-speech for Spanish words and phrases using Chrome's built-in TTS
-- **Video Caption Integration**: Automatic retrieval and parsing of YouTube captions
+### 🎓 Learning Modes
 
-### Interactive Learning
-- **Contextual Quizzes**: On-the-fly vocabulary and comprehension questions
-- **Fill-in-the-Blank Exercises**: Practice with sentences from the video you're watching
-- **Pronunciation Prompts**: Practice speaking what you hear
-- **Translation Challenges**: Test your understanding with translation exercises
+- **Vocabulary Quizzes**: Test word meanings with multiple choice
+- **Fill-in-the-Blank**: Complete sentences with missing words
+- **Translation Practice**: Translate Spanish sentences to English
+- **Pronunciation Practice**: Listen and repeat exercises
 
-### AI-Powered Features
-- **Smart Translations**: High-quality machine translation for captions
-- **Contextual Explanations**: AI-generated explanations for idioms and complex grammar
-- **Adaptive Quiz Generation**: LLM-generated comprehension questions tailored to video content
-- **Grammar Correction**: AI feedback on your Spanish responses
+### 📊 Progress Tracking
 
-### Privacy & Personalization
-- **Local-First Approach**: Core features work offline with no data collection
-- **Personal Vocabulary List**: Save and review words with context
-- **Progress Tracking**: Monitor your learning journey
-- **Cloud Sync** (Premium): Sync your vocabulary and progress across devices
+- Words learned counter
+- Quiz accuracy rates
+- Study time tracking
+- Export vocabulary for external study
 
-## Technical Architecture
+## 🚀 Quick Start
 
-### Chrome Extension Components
-- **Content Scripts**: Inject UI and controls into YouTube pages
-- **Background Service Worker**: Handle translation APIs and heavy processing
-- **Chrome Storage**: Save user preferences and vocabulary locally
-- **Chrome TTS API**: Provide pronunciation assistance
+### Installation
 
-### APIs & Libraries
-- **YouTube Caption API**: Retrieve and parse video subtitles
-- **Translation Services**: Google Translate API, DeepL API, or local translation models
-- **LLM Integration**: Cloud-based AI for advanced features (premium)
-- **WebGPU/WASM** (Future): Local AI model execution
+1. **Download and Build**
 
-## Monetization Model
+   ```bash
+   git clone https://github.com/jmanhype/contexta.git
+   cd contexta
+   npm install
+   npm run build
+   ```
 
-### Free Tier
-- Dual subtitles with basic translations
-- Inline dictionary lookups
-- Text-to-speech pronunciation
-- Limited word saves (20 words)
-- Basic quiz mode
+2. **Load in Chrome**
+   - Open Chrome and go to `chrome://extensions/`
+   - Enable "Developer mode" (top-right toggle)
+   - Click "Load unpacked"
+   - Select the `dist/` folder
 
-### Premium Tier ($5-10/month)
-- Unlimited translations with improved quality
-- Unlimited vocabulary saves with cloud sync
-- Advanced interactive exercises
-- AI Tutor chat mode
-- Export to Anki/CSV
-- Multi-device sync
-- Priority support
+3. **Start Learning**
+   - Go to any Spanish YouTube video
+   - The extension will automatically activate
+   - Click the Contexta icon to access settings
 
-## Development Roadmap
+### Development Mode
 
-### Phase 1: MVP (Core Features)
-- [ ] Chrome extension manifest and basic structure
-- [ ] YouTube caption retrieval and parsing
-- [ ] Dual subtitle display
-- [ ] Basic translation integration
-- [ ] Inline dictionary
-- [ ] TTS pronunciation
-- [ ] Local storage for vocabulary
+For development with auto-rebuild:
 
-### Phase 2: Interactive Learning
-- [ ] Quiz system framework
-- [ ] Multiple quiz types (vocab, fill-in-blank, translation)
-- [ ] Quiz trigger logic (time-based, context-based)
-- [ ] User progress tracking
+```bash
+npm run dev
+```
 
-### Phase 3: AI Integration
-- [ ] Cloud LLM API integration
-- [ ] AI-generated explanations
-- [ ] Adaptive quiz generation
-- [ ] Grammar correction feedback
+This watches for file changes and automatically rebuilds the extension.
 
-### Phase 4: Premium Features & Scaling
-- [ ] User authentication system
-- [ ] Cloud sync for vocabulary
-- [ ] Payment integration
-- [ ] Anki export functionality
-- [ ] Multi-language support expansion
+## 🎮 How to Use
 
-## Installation (Development)
+### Basic Usage
 
-*Instructions will be added once implementation begins*
+1. **Watch Spanish YouTube Videos**
+   - Navigate to any YouTube video with Spanish captions
+   - The extension automatically detects and loads subtitles
 
-## Contributing
+2. **Interactive Learning**
+   - Click any Spanish word in subtitles for instant translation
+   - Save words to your personal vocabulary list
+   - Use the pronunciation button to hear correct pronunciation
 
-This project is currently in the planning phase. Contributions will be welcome once development starts.
+3. **Take Quizzes**
+   - Quizzes appear automatically every 5 minutes (configurable)
+   - Or trigger manually with `Ctrl+Shift+Q`
+   - Answer questions about recently seen content
 
-## Privacy Policy
+### Keyboard Shortcuts
 
-Contexta is designed with privacy in mind:
-- No account required for basic features
-- Video data never leaves your browser (local processing)
-- Optional cloud features require explicit consent
-- Transparent about what data is sent to translation/AI APIs
+- `Ctrl+Shift+S` - Toggle dual subtitles on/off
+- `Ctrl+Shift+Q` - Trigger quiz immediately
+- `Esc` - Close any open overlay
 
-## License
+### Settings
 
-*License to be determined*
+Access settings via the extension popup:
 
-## Target Audience
+- **Language Preferences**: Set target and native languages
+- **Quiz Frequency**: Adjust how often quizzes appear (1-10 minutes)
+- **Display Options**: Toggle subtitles and auto-translation
+- **Data Management**: Export vocabulary or clear all data
 
-- **Primary**: English speakers learning Spanish (A2-B1+ level)
-- **Secondary**: Language learning enthusiasts, educators, students
-- **Ideal Users**: Those who consume Spanish YouTube content and want immersive learning with support
+## 🛠️ Technical Architecture
 
-## Inspiration & Prior Art
+### Components
 
-Inspired by tools like:
-- Language Reactor (dual subtitles)
-- InterSub (live translation)
-- Linguist (offline translation)
+```
+src/
+├── background/         # Service worker for API calls and background tasks
+├── content/           # Content scripts injected into YouTube pages
+│   ├── content-script.js    # Main content script coordinator
+│   ├── subtitle-parser.js   # YouTube subtitle extraction and processing
+│   ├── ui-injector.js       # DOM manipulation and UI components
+│   └── quiz-manager.js      # Quiz generation and management
+├── popup/             # Extension popup interface
+├── styles/            # CSS for content script injections
+└── utils/             # Shared utilities and configurations
+```
 
-Contexta differentiates itself through:
-- Active learning with contextual quizzes
-- AI-powered personalization
-- Privacy-focused local-first architecture
+### Key Features Implementation
 
-## Contact
+- **YouTube Integration**: Uses YouTube's timedtext API for caption retrieval
+- **Local Storage**: Chrome Storage API for offline vocabulary and preferences
+- **Translation**: MyMemory API for free translations (with caching)
+- **TTS**: Chrome's built-in Text-to-Speech API
+- **Real-time Sync**: Content script monitors video playback for subtitle timing
 
-*Contact information to be added*
+## 📁 Project Structure
+
+```
+contexta/
+├── src/                 # Source code
+├── dist/               # Built extension (created by npm run build)
+├── scripts/            # Build and development scripts
+├── data/               # Mock vocabulary and language data
+├── icons/              # Extension icons
+├── manifest.json       # Chrome extension manifest
+├── package.json        # Node.js dependencies and scripts
+└── README.md          # This file
+```
+
+## 🔧 Development
+
+### Prerequisites
+
+- Node.js 16+ and npm
+- Chrome browser with Developer mode enabled
+
+### Build Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Build for production
+npm run build
+
+# Development mode with file watching
+npm run dev
+
+# Create distributable ZIP
+npm run zip
+
+# Code formatting
+npm run format
+
+# Linting
+npm run lint
+```
+
+### Adding Features
+
+1. **New Content Features**: Add to `src/content/` directory
+2. **UI Components**: Extend `ui-injector.js` or add to `src/popup/`
+3. **Background Tasks**: Modify `src/background/service-worker.js`
+4. **Styling**: Update `src/styles/content.css`
+
+## 🌐 Browser Support
+
+- Chrome 90+ (Manifest V3 support)
+- Chromium-based browsers (Edge, Brave, etc.)
+- Opera with Chrome Web Store access
+
+## 🔒 Privacy & Permissions
+
+### Required Permissions
+
+- **Storage**: Save vocabulary and preferences locally
+- **TTS**: Text-to-speech pronunciation
+- **ActiveTab**: Access current YouTube tab
+- **Host Permissions**: YouTube.com for subtitle extraction
+- **External APIs**: Translation services (MyMemory API)
+
+### Data Handling
+
+- All vocabulary data stored locally in browser
+- No personal data sent to external servers
+- Translation requests are anonymous and cached
+- No tracking or analytics
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our contributing guidelines:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit changes (`git commit -am 'Add new feature'`)
+4. Push to branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
+
+### Areas for Contribution
+
+- Additional language support
+- Advanced quiz types
+- UI/UX improvements
+- Performance optimizations
+- Mobile/tablet support
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Extension doesn't load:**
+
+- Ensure you built the project (`npm run build`)
+- Check that Developer mode is enabled in Chrome
+- Verify manifest.json is valid
+
+**No subtitles appearing:**
+
+- Make sure the YouTube video has Spanish captions available
+- Try refreshing the page
+- Check that the extension is enabled for the current tab
+
+**Translations not working:**
+
+- Check internet connection (requires API access)
+- Verify host permissions in Chrome extensions page
+- Clear cached translations in popup settings
+
+**Quizzes not appearing:**
+
+- Ensure quiz mode is enabled in popup settings
+- Check that video has been playing for the configured interval
+- Try manually triggering with Ctrl+Shift+Q
+
+### Debug Mode
+
+Enable debug logging by opening browser console on YouTube pages:
+
+```javascript
+localStorage.setItem("contexta-debug", "true");
+```
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🔮 Future Features
+
+- AI-powered conversation practice
+- Spaced repetition for vocabulary review
+- Progress synchronization across devices
+- Support for additional languages (French, German, etc.)
+- Integration with external language learning platforms
+- Offline mode for downloaded videos
+- Advanced analytics and learning insights
+
+## 📧 Support
+
+For support, bug reports, or feature requests:
+
+- GitHub Issues: [Report Issue](https://github.com/jmanhype/contexta/issues)
+- Documentation: [Wiki](https://github.com/jmanhype/contexta/wiki)
 
 ---
 
-**Status**: Planning & Design Phase
-**Repository**: https://github.com/jmanhype/contexta
+**Happy Learning! 🎉**
+
+Transform your YouTube watching into an immersive Spanish learning experience with Contexta.

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contexta - Spanish Learning</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup-container">
+      <!-- Header -->
+      <header class="popup-header">
+        <div class="logo">
+          <span class="logo-icon">🌟</span>
+          <span class="logo-text">Contexta</span>
+        </div>
+        <div class="version">v0.1.0</div>
+      </header>
+
+      <!-- Status Section -->
+      <section class="status-section">
+        <div class="status-item">
+          <span class="status-icon" id="connection-status">●</span>
+          <span class="status-text" id="status-text">Checking YouTube...</span>
+        </div>
+      </section>
+
+      <!-- Main Controls -->
+      <section class="controls-section">
+        <!-- Toggle Subtitles -->
+        <div class="control-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="subtitle-toggle" checked />
+            <span class="slider"></span>
+          </label>
+          <div class="control-label">
+            <span class="control-title">Dual Subtitles</span>
+            <span class="control-desc">Show Spanish & English subtitles</span>
+          </div>
+        </div>
+
+        <!-- Auto Translate -->
+        <div class="control-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="translate-toggle" checked />
+            <span class="slider"></span>
+          </label>
+          <div class="control-label">
+            <span class="control-title">Auto Translate</span>
+            <span class="control-desc">Automatically translate subtitles</span>
+          </div>
+        </div>
+
+        <!-- Quiz Mode -->
+        <div class="control-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="quiz-toggle" checked />
+            <span class="slider"></span>
+          </label>
+          <div class="control-label">
+            <span class="control-title">Interactive Quizzes</span>
+            <span class="control-desc">Pop-up quizzes while watching</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz Frequency -->
+      <section class="frequency-section">
+        <div class="section-title">Quiz Frequency</div>
+        <div class="frequency-selector">
+          <input
+            type="range"
+            id="quiz-frequency"
+            min="60"
+            max="600"
+            value="300"
+            step="60"
+          />
+          <div class="frequency-labels">
+            <span>1min</span>
+            <span id="frequency-value">5min</span>
+            <span>10min</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section class="stats-section">
+        <div class="section-title">Your Progress</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" id="vocabulary-count">0</div>
+            <div class="stat-label">Words Learned</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="quiz-count">0</div>
+            <div class="stat-label">Quizzes Taken</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="accuracy-rate">0%</div>
+            <div class="stat-label">Accuracy</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <section class="actions-section">
+        <button class="action-btn primary" id="trigger-quiz-btn">
+          <span class="btn-icon">🧠</span>
+          Take Quiz Now
+        </button>
+
+        <button class="action-btn secondary" id="export-data-btn">
+          <span class="btn-icon">📁</span>
+          Export Vocabulary
+        </button>
+      </section>
+
+      <!-- Quick Settings -->
+      <section class="settings-section">
+        <div class="section-title">Languages</div>
+        <div class="language-selector">
+          <select id="target-language">
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="pt">Portuguese</option>
+          </select>
+          <select id="native-language">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="popup-footer">
+        <div class="footer-links">
+          <button class="link-btn" id="clear-data-btn">Clear Data</button>
+          <button class="link-btn" id="help-btn">Help</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Processing...</div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
