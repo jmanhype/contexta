@@ -1,0 +1,471 @@
+/* Contexta Content Script Styles */
+
+:root {
+  --contexta-primary: #4F46E5;
+  --contexta-secondary: #06B6D4;
+  --contexta-accent: #F59E0B;
+  --contexta-success: #10B981;
+  --contexta-error: #EF4444;
+  --contexta-text: #1F2937;
+  --contexta-text-light: #6B7280;
+  --contexta-bg: #FFFFFF;
+  --contexta-bg-dark: #F9FAFB;
+  --contexta-border: #E5E7EB;
+  --contexta-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --contexta-z-index: 10000;
+}
+
+/* Subtitle Container */
+.contexta-ui-container {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--contexta-z-index);
+  pointer-events: none;
+  max-width: 90%;
+  width: auto;
+}
+
+.contexta-subtitles {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0 auto;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contexta-subtitle-dual {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.contexta-subtitle-original {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.contexta-subtitle-translation {
+  font-size: 16px;
+  color: #E5E7EB;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Clickable Words */
+.contexta-clickable-word {
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  position: relative;
+}
+
+.contexta-clickable-word:hover,
+.contexta-word-hover {
+  background: var(--contexta-primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Dictionary Tooltip */
+.contexta-dictionary-tooltip {
+  position: fixed;
+  z-index: calc(var(--contexta-z-index) + 100);
+  background: var(--contexta-bg);
+  border-radius: 12px;
+  box-shadow: var(--contexta-shadow);
+  border: 1px solid var(--contexta-border);
+  min-width: 280px;
+  max-width: 400px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  backdrop-filter: blur(20px);
+}
+
+.contexta-tooltip-content {
+  padding: 0;
+}
+
+.contexta-tooltip-header {
+  background: var(--contexta-primary);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contexta-word {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.contexta-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.contexta-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.contexta-tooltip-body {
+  padding: 16px;
+}
+
+.contexta-translation {
+  margin-bottom: 12px;
+  color: var(--contexta-text);
+}
+
+.contexta-context {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--contexta-bg-dark);
+  border-radius: 8px;
+  border-left: 4px solid var(--contexta-secondary);
+  font-style: italic;
+  color: var(--contexta-text-light);
+}
+
+.contexta-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.contexta-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 100px;
+}
+
+.contexta-pronounce-btn {
+  background: var(--contexta-secondary);
+  color: white;
+}
+
+.contexta-pronounce-btn:hover {
+  background: #0891B2;
+  transform: translateY(-1px);
+}
+
+.contexta-save-btn {
+  background: var(--contexta-success);
+  color: white;
+}
+
+.contexta-save-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.contexta-save-btn:disabled {
+  background: #9CA3AF;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.contexta-loading {
+  text-align: center;
+  color: var(--contexta-text-light);
+  padding: 20px;
+}
+
+.contexta-error {
+  text-align: center;
+  color: var(--contexta-error);
+  padding: 20px;
+}
+
+/* Quiz Overlay */
+.contexta-quiz-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: calc(var(--contexta-z-index) + 200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.contexta-quiz-modal {
+  background: var(--contexta-bg);
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.contexta-quiz-header {
+  background: linear-gradient(135deg, var(--contexta-primary), var(--contexta-secondary));
+  color: white;
+  padding: 20px;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contexta-quiz-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.contexta-quiz-content {
+  padding: 24px;
+}
+
+.contexta-quiz-question {
+  text-align: center;
+}
+
+.contexta-quiz-question p {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  color: var(--contexta-text);
+}
+
+.contexta-quiz-sentence {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--contexta-primary);
+  padding: 16px;
+  background: var(--contexta-bg-dark);
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.contexta-quiz-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.contexta-quiz-option {
+  padding: 16px;
+  border: 2px solid var(--contexta-border);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.contexta-quiz-option:hover {
+  border-color: var(--contexta-primary);
+  background: #F8FAFC;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contexta-quiz-input,
+.contexta-quiz-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--contexta-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  margin: 16px 0;
+  transition: border-color 0.2s ease;
+}
+
+.contexta-quiz-input:focus,
+.contexta-quiz-textarea:focus {
+  outline: none;
+  border-color: var(--contexta-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.contexta-quiz-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.contexta-quiz-submit {
+  background: var(--contexta-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-top: 16px;
+}
+
+.contexta-quiz-submit:hover {
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+}
+
+/* Quiz Results */
+.contexta-quiz-result {
+  text-align: center;
+  padding: 20px;
+}
+
+.contexta-result-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contexta-result-icon.correct {
+  color: var(--contexta-success);
+}
+
+.contexta-result-icon.incorrect {
+  color: var(--contexta-error);
+}
+
+.contexta-quiz-result p {
+  margin: 8px 0;
+  color: var(--contexta-text);
+}
+
+.contexta-continue-btn {
+  background: var(--contexta-success);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.contexta-continue-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contexta-subtitle-dual {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.contexta-dictionary-tooltip {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.contexta-quiz-modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contexta-subtitles {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .contexta-subtitle-original {
+    font-size: 16px;
+  }
+  
+  .contexta-subtitle-translation {
+    font-size: 14px;
+  }
+  
+  .contexta-dictionary-tooltip {
+    min-width: 260px;
+    max-width: 90vw;
+  }
+  
+  .contexta-quiz-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .contexta-quiz-content {
+    padding: 16px;
+  }
+  
+  .contexta-actions {
+    flex-direction: column;
+  }
+  
+  .contexta-btn {
+    min-width: auto;
+  }
+}
+
+/* Hide on full screen video */
+.ytp-fullscreen .contexta-ui-container {
+  bottom: 120px;
+}
+
+/* Accessibility */
+.contexta-clickable-word:focus,
+.contexta-btn:focus,
+.contexta-quiz-option:focus,
+.contexta-quiz-input:focus,
+.contexta-quiz-textarea:focus {
+  outline: 2px solid var(--contexta-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .contexta-subtitles {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid white;
+  }
+  
+  .contexta-subtitle-original,
+  .contexta-subtitle-translation {
+    text-shadow: none;
+  }
+}
