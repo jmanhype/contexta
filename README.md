@@ -26,6 +26,12 @@ A Chrome extension that transforms YouTube into an immersive Spanish learning pl
 - Study time tracking
 - Export vocabulary for external study
 
+## 📸 Screenshots
+
+![Contexta Extension Popup showing 39 subtitles captured](docs/screenshots/popup-active.png)
+
+*Contexta successfully capturing and processing 39 Spanish subtitles from a YouTube video*
+
 ## 🚀 Quick Start
 
 ### Installation
